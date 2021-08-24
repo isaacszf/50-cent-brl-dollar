@@ -33,6 +33,9 @@ def add_text_to_image(text='texto'):
     last_img_path = images[-1]
 
     img = Image.open(f'{image_path}/{last_img_path}')
+    if img.height < 700:
+        size = (1000, 700); img = img.resize(size)
+
     x = img.width // 2
     y = img.height // 2
 
