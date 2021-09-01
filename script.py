@@ -1,4 +1,5 @@
 import requests
+from random import randint
 from time import sleep
 from os import listdir, rename, path
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
@@ -22,7 +23,7 @@ def rename_img(img, img_path):
     sleep(2)
 
 
-def add_text_to_image(text='texto'):
+def add_text_to_image(text='texto', random_img_order=True):
     image_path = './imagens'
 
     [rename_img(img, image_path) for img in listdir(image_path)]
@@ -30,7 +31,11 @@ def add_text_to_image(text='texto'):
 
     print('\nImagens listadas e renomeadas..')
 
-    last_img_path = images[-1]
+    if random_img_order:
+        last_img_path = images[randint(0, (len(images) - 1))]
+
+    if not random_img_order:
+        last_img_path = images[-1]
 
     img = Image.open(f'{image_path}/{last_img_path}')
     if img.height < 700:
@@ -57,10 +62,11 @@ def add_text_to_image(text='texto'):
 
     print('Texto desenhado..\n')
 
+    img.save(f'./gerada/result.png')
     return img.show()
 
 
 actual_bill = gen_usd_to_brl_number()
 fifty_cent = str(round(actual_bill / 2, 2))
 
-add_text_to_image(text=f'R$ {fifty_cent}')
+add_text_to_image(text=f'R$ {fifty_cent}', random_img_order=True)
